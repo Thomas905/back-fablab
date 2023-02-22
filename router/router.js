@@ -1,14 +1,7 @@
-import express from 'express';
-import dotenv from 'dotenv';
+const baseRouter = require('./base');
 
-dotenv.config(process.cwd(), '.env');
+const setupRoutes = (app) => {
+    app.use(baseRouter);
+};
 
-const router = express.Router();
-
-router.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
-
-
-export default router;
+module.exports = setupRoutes;
