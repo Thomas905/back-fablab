@@ -4,6 +4,9 @@ const Role = require('../model/role');
 const Groupe = require('../model/groupe');
 const Ecole = require('../model/ecole');
 const Classe = require('../model/classe');
+const authController = require('../controllers/auth.controller');
+const authJwt = require("../middleware/authJwt");
+const testController = require("../controllers/test.controller");
 
 router.get('/api', (req, res) => {
     res.send("Bienvenue sur l'api FABLAB");
@@ -17,5 +20,16 @@ router.get('/api/utilisateurs', async (req, res) => {
     });
     res.json(utilisateurs);
 });
+
+router.post('/api/register', authController.signup);
+
+router.post('/api/login', authController.signin);
+
+router.get(
+    "/api/test/user",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    testController.test
+);
+
 
 module.exports = router;

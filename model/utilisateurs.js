@@ -14,7 +14,7 @@ const Utilisateur = sequelize.define('utilisateur', {
     },
     login: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
     },
     password: {
         type: DataTypes.STRING(50),
@@ -34,7 +34,7 @@ const Utilisateur = sequelize.define('utilisateur', {
         references: {
             model: 'role',
             key: 'id_role'
-        }
+        },
     },
     id_groupe: {
         type: DataTypes.INTEGER,
@@ -62,7 +62,12 @@ const Utilisateur = sequelize.define('utilisateur', {
     }
 }, {
     tableName: 'utilisateur',
-    timestamps: false
+    timestamps: false,
+    instanceMethods: {
+        getRole: function () {
+            return Role.findByPk(this.id_role);
+        }
+    }
 });
 
 Utilisateur.belongsTo(Role, { foreignKey: 'id_role' });
