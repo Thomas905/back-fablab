@@ -7,6 +7,7 @@ const Classe = require('../model/classe');
 const authController = require('../controllers/auth.controller');
 const authJwt = require("../middleware/authJwt");
 const testController = require("../controllers/test.controller");
+const schoolController = require("../controllers/school.controller");
 
 router.get('/api', (req, res) => {
     res.send("Bienvenue sur l'api FABLAB");
@@ -30,6 +31,12 @@ router.get(
     [authJwt.verifyToken, authJwt.isAdmin],
     testController.test
 );
+
+router.get(
+    "/api/ecoles",
+    [authJwt.verifyToken],
+    schoolController.ecole
+)
 
 
 module.exports = router;
