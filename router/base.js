@@ -1,9 +1,4 @@
 const router = require('express').Router();
-const Utilisateur = require('../model/utilisateurs');
-const Role = require('../model/role');
-const Groupe = require('../model/groupe');
-const Ecole = require('../model/ecole');
-const Classe = require('../model/classe');
 const authController = require('../controllers/auth.controller');
 const authJwt = require("../middleware/authJwt");
 const testController = require("../controllers/test.controller");
@@ -12,12 +7,6 @@ const coursController = require("../controllers/cours.controller");
 
 router.get('/api', (req, res) => {
     res.send("Bienvenue sur l'api FABLAB");
-});
-
-router.get('/api/utilisateurs', async (req, res) => {
-    const utilisateurs = await Utilisateur.findAll({
-    });
-    res.json(utilisateurs);
 });
 
 router.post('/api/register',
@@ -29,22 +18,27 @@ router.post('/api/login',
 );
 
 router.get(
-    "/api/test/user",
+"/api/test/user",
     [authJwt.verifyToken, authJwt.isAdmin],
     testController.test
 );
 
 router.get(
-    "/api/ecoles",
+"/api/ecoles",
     [authJwt.verifyToken],
     schoolController.ecoles
 )
 
 router.get(
-    "/api/cours",
-    [authJwt.verifyToken],
+"/api/cours",
+[authJwt.verifyToken],
     coursController.coursAll
 )
 
+router.get(
+'/api/classe/:id/cours',
+[authJwt.verifyToken],
+    coursController.coursByClasse
+);
 
 module.exports = router;

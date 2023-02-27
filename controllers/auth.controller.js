@@ -49,8 +49,8 @@ exports.signin = (req, res) => {
             }
 
             let authorities = [];
-            user.getRole().then(role => {
-                authorities.push("ROLE_" + role.libelle_role.toUpperCase());
+            const roleData = user.role.dataValues;
+                authorities.push("ROLE_" + roleData.libelle_role.toUpperCase());
                 res.status(200).send({
                     id: user.id,
                     login: user.login,
@@ -61,7 +61,6 @@ exports.signin = (req, res) => {
                         expiresIn: 86400 // 24 hours
                     })
                 });
-            });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
