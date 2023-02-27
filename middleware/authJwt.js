@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const Utilisateur = require("../model/utilisateurs");
 const Role = require("../model/role");
+const bcrypt = require("bcryptjs");
 
 verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
@@ -78,9 +79,45 @@ isInter = (req, res, next) => {
 };
 
 
+isCurrentUser = (req, res, next) => {
+    Utilisateur.findOne({
+        where: {
+            login: req.body.login
+        }
+    })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({ message: "User Not found." });
+            }
+
+            let passwordIsValid = bcrypt.compareSync(
+                req.body.password,
+                user.password
+            );
+
+            if (!passwordIsValid) {
+                return res.status(401).send({
+                    accessToken: null,
+                    message: "Invalid Password!"
+                });
+            }
+
+            if (user.login === req.params.login) {
+                next();
+                return;
+            }
+            res.status(403).send({
+                message: "Require Current User !"
+            });
+        })
+}
+
 const authJwt = {
     verifyToken: verifyToken,
     isAdmin: isAdmin,
+    isTv: isTv,
+    isInter: isInter,
+    isCurrentUser: isCurrentUser
 };
 
 module.exports = authJwt;

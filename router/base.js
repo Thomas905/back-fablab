@@ -18,8 +18,8 @@ router.post('/api/login',
 );
 
 router.get(
-"/api/test/user",
-    [authJwt.verifyToken, authJwt.isAdmin],
+"/api/test/user/:login",
+    [authJwt.verifyToken],
     testController.test
 );
 
@@ -30,7 +30,7 @@ router.get(
 )
 
 router.get(
-"/api/cours",
+"/api/admin/cours",
 [authJwt.verifyToken],
     coursController.coursAll
 )
@@ -40,5 +40,11 @@ router.get(
 [authJwt.verifyToken],
     coursController.coursByClasse
 );
+
+router.get(
+"/api/cours/user/:login",
+[authJwt.verifyToken, authJwt.isCurrentUser],
+    coursController.coursByUser
+)
 
 module.exports = router;

@@ -1,7 +1,5 @@
 const config = require("../config/auth.config");
 const Utilisateur = require("../model/utilisateurs");
-const Role = require("../model/role");
-const { Sequelize } = require('sequelize');
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -47,21 +45,25 @@ exports.signin = (req, res) => {
                     message: "Invalid Password!"
                 });
             }
-
             let authorities = [];
+            let school = [];
             const roleData = user.role.dataValues;
-                authorities.push("ROLE_" + roleData.libelle_role.toUpperCase());
-                res.status(200).send({
-                    id: user.id,
-                    login: user.login,
-                    nom: user.nom,
-                    prenom: user.prenom,
-                    roles: authorities,
-                    accessToken: jwt.sign({ id: user.id }, config.secret, {
-                        expiresIn: 86400 // 24 hours
-                    })
-                });
+            authorities.push("ROLE_" + roleData.libelle_role.toUpperCase());
+            const schoolData = user.ecole.dataValues;
+            school.push(schoolData.nom_ecole);
+            res.status(200).send({
+                id: user.id_utilisateur,
+                login: user.login,
+                nom: user.nom,
+                prenom: user.prenom,
+                roles: authorities,
+                ecole: school,
+                accessToken: jwt.sign({ id: user.id }, config.secret, {
+                    expiresIn: 86400 // 24 hours
+                })
+            });
         })
+
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
