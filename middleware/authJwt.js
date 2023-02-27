@@ -29,18 +29,52 @@ isAdmin = (req, res, next) => {
             login: req.body.login
         }
     })
-    .then(user => {
-        user.getRole().then(role => {
-            if (role.id_role === 1) {
+        .then(user => {
+            const roleData = user.role.dataValues;
+            if (roleData.id_role === 1) {
                 next();
                 return;
             }
-
             res.status(403).send({
-                message: "Require Admin Role!"
+                message: "Require Admin Role !"
             });
-        });
+        })
+};
+
+isTv = (req, res, next) => {
+    Utilisateur.findOne({
+        where: {
+            login: req.body.login
+        }
     })
+        .then(user => {
+            const roleData = user.role.dataValues;
+            if (roleData.id_role === 2) {
+                next();
+                return;
+            }
+            res.status(403).send({
+                message: "Require TV Role !"
+            });
+        })
+};
+
+isInter = (req, res, next) => {
+    Utilisateur.findOne({
+        where: {
+            login: req.body.login
+        }
+    })
+        .then(user => {
+            const roleData = user.role.dataValues;
+            if (roleData.id_role === 3) {
+                next();
+                return;
+            }
+            res.status(403).send({
+                message: "Require Inter Role !"
+            });
+        })
 };
 
 

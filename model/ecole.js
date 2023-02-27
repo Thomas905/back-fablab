@@ -31,7 +31,11 @@ const Ecole = sequelize.define('ecole', {
     }
 }, {
     tableName: 'ecole',
-    timestamps: false
+    timestamps: false,
+    defaultScope: {
+        include: [Groupe],
+        attributes: { exclude: ['id_groupe'] }
+    }
 });
 
 Ecole.belongsTo(Groupe, { foreignKey: 'id_groupe' });

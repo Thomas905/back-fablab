@@ -8,6 +8,7 @@ const authController = require('../controllers/auth.controller');
 const authJwt = require("../middleware/authJwt");
 const testController = require("../controllers/test.controller");
 const schoolController = require("../controllers/school.controller");
+const coursController = require("../controllers/cours.controller");
 
 router.get('/api', (req, res) => {
     res.send("Bienvenue sur l'api FABLAB");
@@ -15,16 +16,17 @@ router.get('/api', (req, res) => {
 
 router.get('/api/utilisateurs', async (req, res) => {
     const utilisateurs = await Utilisateur.findAll({
-        include: [Role, Groupe, Ecole, Classe],
-        attributes: { exclude: ['id_role', 'id_groupe', 'id_ecole', 'id_classe'] }
-
     });
     res.json(utilisateurs);
 });
 
-router.post('/api/register', authController.signup);
+router.post('/api/register',
+    authController.signup
+);
 
-router.post('/api/login', authController.signin);
+router.post('/api/login',
+    authController.signin
+);
 
 router.get(
     "/api/test/user",
@@ -35,7 +37,13 @@ router.get(
 router.get(
     "/api/ecoles",
     [authJwt.verifyToken],
-    schoolController.ecole
+    schoolController.ecoles
+)
+
+router.get(
+    "/api/cours",
+    [authJwt.verifyToken],
+    coursController.coursAll
 )
 
 

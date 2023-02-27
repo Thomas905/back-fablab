@@ -63,10 +63,9 @@ const Utilisateur = sequelize.define('utilisateur', {
 }, {
     tableName: 'utilisateur',
     timestamps: false,
-    instanceMethods: {
-        getRole: function () {
-            return Role.findByPk(this.id_role);
-        }
+    defaultScope: {
+        include: [Role, Groupe, Ecole, Classe],
+        attributes: { exclude: ['id_role', 'id_groupe', 'id_ecole', 'id_classe'] }
     }
 });
 
