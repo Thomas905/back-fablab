@@ -42,8 +42,8 @@ router.get(
 );
 
 router.get(
-"/api/cours/user/:login",
-[authJwt.verifyToken, authJwt.isCurrentUser],
+"/api/cours",
+[authJwt.verifyToken, authJwt.isInter],
     coursController.coursByUser
 )
 

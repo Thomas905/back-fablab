@@ -1,8 +1,6 @@
 const Cours = require('../model/cours');
 const Classe = require("../model/classe");
 const Utilisateur = require("../model/utilisateurs");
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config");
 
 exports.coursAll= (req, res) => {
     Cours.findAll()
@@ -32,7 +30,7 @@ exports.coursByClasse = (req, res) => {
 exports.coursByUser = (req, res) => {
     Utilisateur.findOne({
         where: {
-            login: req.params.login
+            id_utilisateur: req.userId
         },
     })
         .then(user => {

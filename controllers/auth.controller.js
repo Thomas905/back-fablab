@@ -1,8 +1,6 @@
-const config = require("../config/auth.config");
 const Utilisateur = require("../model/utilisateurs");
-
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const authJwt = require("../middleware/authJwt");
 
 exports.signup = (req, res) => {
     Utilisateur.create({
@@ -58,9 +56,7 @@ exports.signin = (req, res) => {
                 prenom: user.prenom,
                 roles: authorities,
                 ecole: school,
-                accessToken: jwt.sign({ id: user.id }, config.secret, {
-                    expiresIn: 86400 // 24 hours
-                })
+                accessToken: authJwt.generateToken(user.id_utilisateur)
             });
         })
 
