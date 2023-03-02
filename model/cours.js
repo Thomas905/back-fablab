@@ -43,7 +43,6 @@ const Cours = sequelize.define('cours', {
         }
     }
     }, {
-    sequelize,
     tableName: 'cours',
     timestamps: false,
     defaultScope: {

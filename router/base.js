@@ -4,6 +4,7 @@ const authJwt = require("../middleware/authJwt");
 const testController = require("../controllers/test.controller");
 const schoolController = require("../controllers/school.controller");
 const coursController = require("../controllers/cours.controller");
+const presenceController = require("../controllers/presence.controller");
 
 router.get('/api', (req, res) => {
     res.send("Bienvenue sur l'api FABLAB");
@@ -45,6 +46,12 @@ router.get(
 "/api/cours",
 [authJwt.verifyToken, authJwt.isInter],
     coursController.coursByUser
+)
+
+router.get(
+"/api/presence/cours/:id",
+[authJwt.verifyToken],
+    presenceController.presenceByCours
 )
 
 module.exports = router;
