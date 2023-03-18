@@ -2,13 +2,6 @@ const Cours = require('../model/cours');
 const Classe = require("../model/classe");
 const Utilisateur = require("../model/utilisateurs");
 
-exports.coursAll= (req, res) => {
-    Cours.findAll()
-        .then(cours => {
-            res.status(200).send(cours);
-        });
-}
-
 exports.coursByClasse = (req, res) => {
     Classe.findOne({
         where: {
