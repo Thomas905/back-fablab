@@ -6,6 +6,7 @@ const schoolController = require("../controllers/school.controller");
 const coursController = require("../controllers/cours.controller");
 const presenceController = require("../controllers/presence.controller");
 const adminController = require("../controllers/admin.controller");
+const classeController = require("../controllers/classe.controller");
 
 router.get('/api', (req, res) => {
     res.send("Bienvenue sur l'api FABLAB");
@@ -56,6 +57,12 @@ router.get(
 )
 
 router.get(
+    "/api/classe/ecole/:id",
+    [authJwt.verifyToken],
+    classeController.classeAll
+)
+
+router.get(
 '/api/classe/:id/cours',
 [authJwt.verifyToken],
     coursController.coursByClasse
@@ -71,6 +78,12 @@ router.get(
 "/api/presence/cours/:id",
 [authJwt.verifyToken],
     presenceController.presenceByCours
+)
+
+router.post(
+"/api/presence/cours/:idcours/etudiant/:idetudiant/:statutpresence",
+[authJwt.verifyToken],
+    presenceController.precenceCheck
 )
 
 module.exports = router;
