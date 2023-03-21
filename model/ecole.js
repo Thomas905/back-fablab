@@ -28,6 +28,10 @@ const Ecole = sequelize.define('ecole', {
             model: 'groupe',
             key: 'id_groupe'
         }
+    },
+    logo_ecole: {
+        type: DataTypes.STRING(255),
+        allowNull: false
     }
 }, {
     tableName: 'ecole',
