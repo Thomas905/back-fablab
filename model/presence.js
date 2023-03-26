@@ -1,9 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/db.js');
-const Utilisateur = require("./utilisateurs");
+const Eleve = require("./eleve");
 const Cours = require("./cours");
 const Classe = require("./classe");
 
+// Définition de la table presence de la base de données
 const Presence = sequelize.define('presence', {
     id_presence: {
         type: DataTypes.INTEGER,
@@ -15,12 +16,12 @@ const Presence = sequelize.define('presence', {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    id_utilisateur: {
+    id_eleve: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'utilisateur',
-            key: 'id_utilisateur'
+            model: 'eleve',
+            key: 'id_eleve'
         }
     },
     id_cours: {
@@ -35,13 +36,14 @@ const Presence = sequelize.define('presence', {
     tableName: 'presence',
     timestamps: false,
     defaultScope: {
-        include: [Utilisateur, Cours],
-        attributes: { exclude: ['id_utilisateur', 'id_cours'] }
+        include: [Eleve, Cours],
+        attributes: { exclude: ['id_eleve', 'id_cours'] }
     }
 });
 
-Utilisateur.hasMany(Presence, { foreignKey: 'id_utilisateur' });
-Presence.belongsTo(Utilisateur, { foreignKey: 'id_utilisateur' });
+// Définition des relations entre les tables
+Eleve.hasMany(Presence, { foreignKey: 'id_eleve' });
+Presence.belongsTo(Eleve, { foreignKey: 'id_eleve' });
 
 Cours.hasMany(Presence, { foreignKey: 'id_cours' });
 Presence.belongsTo(Cours, { foreignKey: 'id_cours' });

@@ -3,6 +3,7 @@ const sequelize = require ('../database/db.js');
 const Classe = require ('./classe');
 const Ecole = require ('./ecole');
 
+// Définition de la table eleve de la base de données
 const Eleve = sequelize.define ('eleve', {
     id_eleve: {
         type: DataTypes.INTEGER,
@@ -43,6 +44,7 @@ const Eleve = sequelize.define ('eleve', {
     }
 });
 
+// Définition des relations entre les tables
 Eleve.belongsTo (Classe, { foreignKey: 'id_classe' });
 Eleve.belongsTo (Ecole, { foreignKey: 'id_ecole' });
 

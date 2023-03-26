@@ -1,5 +1,6 @@
 const Cours = require('../model/cours');
 const Presence = require("../model/presence");
+const Eleve = require("../model/eleve");
 
 exports.presenceByCours = (req, res) => {
     Cours.findOne({
@@ -8,10 +9,17 @@ exports.presenceByCours = (req, res) => {
         }
     })
         .then(cours => {
+            // Récupération des données de la table présence pour l'id_cours sélectionné
             Presence.findAll({
                 where: {
                     id_cours: cours.id_cours
                 },
+                include: [{
+                    model: Eleve,
+                    attributes: ['id_eleve', 'nom_eleve', 'prenom_eleve']
+                }],
+                // Tri des données par nom d'élève
+                order : [[Eleve, 'nom_eleve', 'ASC']]
             })
                 .then(presence => {
                     res.status(200).send({
@@ -30,12 +38,12 @@ exports.precenceCheck = (req, res) => {
     Presence.findOne({
         where: {
             id_cours: req.params.idcours,
-            id_utilisateur: req.params.idetudiant
+            id_eleve: req.params.idetudiant
         }
     })
 
     .then(presence => {
-        if (presence.cour.utilisateur.id_utilisateur === req.userId) {
+        if (presence.cour.eleve.id_eleve === req.userId) {
             presence.update({
                 statut_presence: req.params.statutpresence
             })
