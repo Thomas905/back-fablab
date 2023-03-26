@@ -16,7 +16,7 @@ exports.presenceByCours = (req, res) => {
                 },
                 include: [{
                     model: Eleve,
-                    attributes: ['id_eleve', 'nom_eleve', 'prenom_eleve']
+                    attributes: ['id_eleve', 'nom_eleve', 'prenom_eleve','eleve_photo']
                 }],
                 // Tri des données par nom d'élève
                 order : [[Eleve, 'nom_eleve', 'ASC']]

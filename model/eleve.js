@@ -34,7 +34,11 @@ const Eleve = sequelize.define ('eleve', {
             model: 'ecole',
             key: 'id_ecole'
         }
-    }
+    },
+    eleve_photo: {
+        type: DataTypes.STRING (100),
+        allowNull: true
+    },
 }, {
     tableName: 'eleve',
     timestamps: false,
