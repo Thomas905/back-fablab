@@ -45,10 +45,13 @@ exports.signin = (req, res) => {
             }
             let authorities = [];
             let school = [];
+            let group = [];
             const roleData = user.role.dataValues;
             authorities.push("ROLE_" + roleData.libelle_role.toUpperCase());
             const schoolData = user.ecole.dataValues;
             school.push(schoolData.nom_ecole);
+            const groupData = user.groupe.dataValues;
+            group.push(groupData.id_groupe);
             res.status(200).send({
                 id: user.id_utilisateur,
                 login: user.login,
@@ -56,6 +59,7 @@ exports.signin = (req, res) => {
                 prenom: user.prenom,
                 roles: authorities,
                 ecole: school,
+                groupe: group,
                 accessToken: authJwt.generateToken(user.id_utilisateur)
             });
         })

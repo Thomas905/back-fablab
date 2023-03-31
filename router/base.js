@@ -27,7 +27,7 @@ router.get(
 );
 
 router.get(
-"/api/ecoles",
+"/api/ecoles/:group",
     [authJwt.verifyToken],
     schoolController.ecoles
 )
