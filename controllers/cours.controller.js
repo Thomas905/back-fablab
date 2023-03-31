@@ -1,17 +1,21 @@
 const Cours = require('../model/cours');
 const Classe = require("../model/classe");
 const Utilisateur = require("../model/utilisateurs");
+const sequelize = require('../database/db');
 
 exports.coursByClasse = (req, res) => {
     Classe.findOne({
         where: {
-            id_classe: req.params.id
+            id_classe: req.params.id,
         },
     })
     .then(classe => {
+        // Get the lessons of the classe where the date is today
+        // Call to the sequelize function curdate() to compare the date of the lesson with the current date
         Cours.findAll({
             where: {
-                id_classe: classe.id_classe
+                id_classe: classe.id_classe,
+                date_cours: sequelize.fn('curdate')
             },
             order: [
                 ['date_cours', 'ASC']
