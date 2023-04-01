@@ -45,14 +45,14 @@ router.post(
 )
 
 router.get(
-"/api/admin/list/classes",
-[authJwt.verifyToken, authJwt.isAdmin],
+"/api/admin/list/classes/:id",
+[authJwt.verifyToken, (authJwt.isAdmin || authJwt.isInter)],
     adminController.classeAll
 )
 
 router.get(
-    "/api/admin/list/intervenants",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    "/api/admin/list/intervenants/:id",
+    [authJwt.verifyToken, ((authJwt.isAdmin) || (authJwt.isInter))],
     adminController.intervenantAll
 )
 
@@ -63,7 +63,7 @@ router.get(
 )
 
 router.get(
-'/api/classe/:id/cours',
+'/api/classe/:id/cours/:id_user',
 [authJwt.verifyToken],
     coursController.coursByClasse
 );

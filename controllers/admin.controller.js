@@ -28,7 +28,11 @@ exports.coursCreate = (req, res) => {
 }
 
 exports.classeAll = (req, res) => {
-    Classe.findAll()
+    Classe.findAll({
+            where: {
+                id_classe: req.params.id
+            }
+        })
         .then(classe => {
             res.status(200).send(classe);
         });
@@ -36,15 +40,30 @@ exports.classeAll = (req, res) => {
 
 exports.intervenantAll = (req, res) => {
     //select utilisateur with role = 3
-    Utilisateur.findAll({
-        where: {
-            id_role: 3
-        }
-    })
-        .then(intervenant => {
-            res.status(200).send(intervenant);
+    id_user = req.params.id;
+    if(id_user != 0){
+        Utilisateur.findAll({
+            where: {
+                id_utilisateur: id_user
+            }
         })
-        .catch(err => {
-            res.status(500).send({message: err.message});
+            .then(intervenant => {
+                res.status(200).send(intervenant);
+            })
+            .catch(err => {
+                res.status(500).send({message: err.message});
+            })
+    }else{
+        Utilisateur.findAll({
+            where: {
+                id_role: 3
+            }
         })
+            .then(intervenant => {
+                res.status(200).send(intervenant);
+            })
+            .catch(err => {
+                res.status(500).send({message: err.message});
+            })
+    }
 }
