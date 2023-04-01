@@ -27,6 +27,9 @@ exports.coursByClasse = (req, res) => {
                 .then(cours => {
                     res.status(200).send(cours);
                 })
+                .catch(err => {
+                    res.status(500).send({message: err.message});
+                });
         }else{
             Cours.findAll({
                 where: {
@@ -40,8 +43,14 @@ exports.coursByClasse = (req, res) => {
                 .then(cours => {
                     res.status(200).send(cours);
                 })
+                .catch(err => {
+                    res.status(500).send({message: err.message});
+                });
         }
     })
+    .catch(err => {
+        res.status(500).send({message: err.message});
+    });
 }
 
 exports.coursByUser = (req, res) => {
