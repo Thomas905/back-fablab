@@ -16,8 +16,7 @@ exports.coursCreate = (req, res) => {
         id_intervenant: req.body.idintervenant,
         date_cours: req.body.datecours,
         heure_debut: req.body.heuredebut,
-        heure_fin: req.body.heurefin,
-        description: req.body.description
+        heure_fin: req.body.heurefin
     })
         .then(cours => {
             res.status(200).send(cours);
@@ -41,6 +40,7 @@ exports.classeAll = (req, res) => {
 exports.intervenantAll = (req, res) => {
     //select utilisateur with role = 3
     id_user = req.params.id;
+    groupe = req.params.groupe;
     if(id_user != 0){
         Utilisateur.findAll({
             where: {
@@ -56,7 +56,8 @@ exports.intervenantAll = (req, res) => {
     }else{
         Utilisateur.findAll({
             where: {
-                id_role: 3
+                id_role: 3,
+                id_groupe: groupe
             }
         })
             .then(intervenant => {

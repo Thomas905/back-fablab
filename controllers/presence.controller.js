@@ -58,3 +58,23 @@ exports.precenceCheck = (req, res) => {
         }
     })
 }
+
+exports.precenceUpdate = (req, res) => {
+    Presence.findOne({
+        where: {
+            id_presence: req.params.idpresence
+        }
+    })
+
+    .then(presence => {
+        presence.update({
+            statut_presence: req.params.statutpresence
+        })
+            .then(presence => {
+                res.status(200).send(presence);
+            })
+            .catch(err => {
+                res.status(500).send({message: err.message});
+            });
+    })
+}

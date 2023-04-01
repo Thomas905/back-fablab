@@ -40,7 +40,7 @@ router.get(
 
 router.post(
 "/api/admin/cours",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, (authJwt.isAdmin || authJwt.isInter)],
     adminController.coursCreate
 )
 
@@ -51,7 +51,7 @@ router.get(
 )
 
 router.get(
-    "/api/admin/list/intervenants/:id",
+    "/api/admin/list/intervenants/:id/:groupe",
     [authJwt.verifyToken, ((authJwt.isAdmin) || (authJwt.isInter))],
     adminController.intervenantAll
 )
@@ -84,6 +84,12 @@ router.post(
 "/api/presence/cours/:idcours/etudiant/:idetudiant/:statutpresence",
 [authJwt.verifyToken],
     presenceController.precenceCheck
+)
+
+router.post(
+"/api/presence/cours/:idpresence/:statutpresence",
+[authJwt.verifyToken],
+    presenceController.precenceUpdate
 )
 
 module.exports = router;
