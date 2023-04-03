@@ -54,7 +54,7 @@ router.get(
 
 router.get(
     "/api/admin/list/intervenants/:id/:groupe",
-    [authJwt.verifyToken, ((authJwt.isAdmin) || (authJwt.isInter))],
+    [authJwt.verifyToken, (authJwt.isAdmin || authJwt.isInter)],
     adminController.intervenantAll
 )
 
