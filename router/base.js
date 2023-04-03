@@ -7,6 +7,8 @@ const coursController = require("../controllers/cours.controller");
 const presenceController = require("../controllers/presence.controller");
 const adminController = require("../controllers/admin.controller");
 const classeController = require("../controllers/classe.controller");
+const multer = require('multer');
+const path = require('path');
 
 router.get('/api', (req, res) => {
     res.send("Bienvenue sur l'api FABLAB");
@@ -52,7 +54,7 @@ router.get(
 
 router.get(
     "/api/admin/list/intervenants/:id/:groupe",
-    [authJwt.verifyToken, ((authJwt.isAdmin) || (authJwt.isInter))],
+    [authJwt.verifyToken, (authJwt.isAdmin || authJwt.isInter)],
     adminController.intervenantAll
 )
 
@@ -89,7 +91,28 @@ router.post(
 router.post(
 "/api/presence/cours/:idpresence/:statutpresence",
 [authJwt.verifyToken],
-    presenceController.precenceUpdate
+    presenceController.presenceUpdate
 )
+
+router.post(
+"/api/presence/cours/face/:ideleve/:idcours",
+[authJwt.verifyToken],
+    presenceController.presenceUpdateFace
+)
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/face-image')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+});
+const upload = multer({ storage: storage });
+console.log(upload)
+
+router.post('/api/upload-image', upload.single('image'), (req, res) => {
+    res.json({ message: 'Image téléchargée avec succès' });
+});
 
 module.exports = router;

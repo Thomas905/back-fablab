@@ -21,7 +21,7 @@ exports.coursByClasse = (req, res) => {
                     id_intervenant: id_user
                 },
                 order: [
-                    ['date_cours', 'ASC']
+                    ['heure_debut', 'ASC']
                 ]
             })
                 .then(cours => {
@@ -37,7 +37,7 @@ exports.coursByClasse = (req, res) => {
                     date_cours: sequelize.fn('curdate')
                 },
                 order: [
-                    ['date_cours', 'ASC']
+                    ['heure_debut', 'ASC']
                 ]
             })
                 .then(cours => {
