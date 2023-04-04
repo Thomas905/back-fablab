@@ -4,6 +4,7 @@ const Utilisateur = require("../model/utilisateurs");
 const sequelize = require('../database/db');
 
 exports.coursByClasse = (req, res) => {
+    // Get the id of the user from the request
     id_user = req.params.id_user;
     Classe.findOne({
         where: {
@@ -11,9 +12,10 @@ exports.coursByClasse = (req, res) => {
         },
     })
     .then(classe => {
-        // Get the lessons of the classe where the date is today
+        // Get the lessons of the class where the date is today
         // Call to the sequelize function curdate() to compare the date of the lesson with the current date
         if(id_user != 0){
+            // If the user is a teacher, we get the lessons where the teacher is the one who is connected and the lesson is today
             Cours.findAll({
                 where: {
                     id_classe: classe.id_classe,
@@ -31,6 +33,7 @@ exports.coursByClasse = (req, res) => {
                     res.status(500).send({message: err.message});
                 });
         }else{
+            // If the user is an admin, we get the lessons of the class and the lesson is today
             Cours.findAll({
                 where: {
                     id_classe: classe.id_classe,
