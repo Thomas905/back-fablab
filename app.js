@@ -3,8 +3,8 @@ const cors = require('cors');
 const app = express();
 const setupRoutes = require('./router/router');
 
-app.listen(3306, () => {
-    console.log('Serveur démarré sur le port 3306');
+app.listen(3001, () => {
+    console.log('Serveur démarré sur le port 3001');
   });
 
 app.use(cors('*'));

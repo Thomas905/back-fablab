@@ -42,7 +42,7 @@ router.get(
 
 router.post(
 "/api/admin/cours",
-    [authJwt.verifyToken, (authJwt.isAdmin || authJwt.isInter)],
+    [authJwt.verifyToken],
     adminController.coursCreate
 )
 
