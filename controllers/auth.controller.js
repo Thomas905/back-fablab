@@ -1,6 +1,7 @@
 const Utilisateur = require("../model/utilisateurs");
 const bcrypt = require("bcryptjs");
 const authJwt = require("../middleware/authJwt");
+const crypto = require('crypto');
 
 exports.signup = (req, res) => {
     Utilisateur.create({
@@ -32,10 +33,19 @@ exports.signin = (req, res) => {
                 return res.status(404).send({ message: "User Not found." });
             }
 
-            let passwordIsValid = bcrypt.compareSync(
-                req.body.password,
-                user.password
-            );
+            // let passwordIsValid = bcrypt.compareSync(
+            //     req.body.password,
+            //     user.password
+            // );
+
+            let passwordIsValid = false;
+            // We decrypt the password from the database and compare it to the password entered by the user
+            // Digest is used to get the hexadecimal value of the hash
+            const hashedPassword = crypto.createHash('sha256').update(req.body.password).digest('hex');
+
+            if (hashedPassword === user.password) {
+            passwordIsValid = true;
+            }
 
             if (!passwordIsValid) {
                 return res.status(401).send({
